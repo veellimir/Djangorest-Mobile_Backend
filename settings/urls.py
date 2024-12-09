@@ -25,4 +25,5 @@ urlpatterns: List[path] = [
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
 
     path("", include("app.authentication.urls")),
+    path("", include("app.users.urls")),
 ]
