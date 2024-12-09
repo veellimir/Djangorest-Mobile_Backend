@@ -23,6 +23,7 @@ INSTALLED_APPS = [
     'drf_yasg',
 
     'app.authentication.apps.AuthenticationConfig',
+    'app.users.apps.UsersConfig',
 ]
 
 MIDDLEWARE = [
