@@ -1,0 +1,13 @@
+__pycache__/
+.idea
+
+.venv
+venv
+
+.env
+.env-dev
+.env-prod
+
+/db.sqlite3
+
+/media
