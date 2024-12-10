@@ -15,6 +15,11 @@ class RegisterSerializer(serializers.ModelSerializer):
         write_only=True,
         validators=[validate_password]
     )
+    email = serializers.CharField(
+        write_only=True,
+        validators=[validate_email]
+    )
+
     class Meta:
         model = User
         fields = (
