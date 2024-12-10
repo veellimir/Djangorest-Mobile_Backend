@@ -10,3 +10,7 @@ class CardItem(StrMixin, models.Model):
     image = models.ImageField(upload_to="media/card_items/", blank=False, null=False, verbose_name="Изображение")
     is_available = models.BooleanField(default=True, verbose_name="Доступен")
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата создания")
+
+    class Meta:
+        verbose_name = "Товар"
+        verbose_name_plural = "Товары"

@@ -9,3 +9,4 @@ venv
 .env-prod
 
 /db.sqlite3
+/media
