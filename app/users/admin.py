@@ -1,3 +1,4 @@
 from django.contrib import admin
 
-# Register your models here.
+admin.site.site_title = "Админ-панель Мобильного приложения"
+admin.site.site_header = "Админ-панель Мобильного приложения"
