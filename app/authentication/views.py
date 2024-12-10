@@ -1,4 +1,3 @@
-from typing import Dict, Any
 from urllib.request import Request
 
 from rest_framework.permissions import AllowAny
