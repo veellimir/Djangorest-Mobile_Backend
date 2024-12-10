@@ -26,4 +26,5 @@ urlpatterns: List[path] = [
 
     path("", include("app.authentication.urls")),
     path("", include("app.users.urls")),
+    path("", include("app.products.urls")),
 ]
