@@ -8,7 +8,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = CONFIG__SECRET_KEY
 DEBUG = CONFIG__DEBUG
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [CONFIG__PROJECT_DOMAIN_NAME]
 
 INSTALLED_APPS = [
     'django.contrib.admin',
