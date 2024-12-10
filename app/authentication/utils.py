@@ -9,5 +9,9 @@ def validate_username(username: str) -> None:
         )
 
 
-def validate_password():
-    pass
+def validate_password(password: str) -> None:
+    if not re.match(r"^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$", password):
+        raise ValueError(
+            "Пароль должен содержать минимум 8 символов, включая "
+            "хотя бы одну букву, одну цифру и один специальный символ."
+        )

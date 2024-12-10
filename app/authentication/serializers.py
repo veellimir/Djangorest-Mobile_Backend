@@ -13,7 +13,7 @@ class RegisterSerializer(serializers.ModelSerializer):
     )
     password = serializers.CharField(
         write_only=True,
-        validators=[]
+        validators=[validate_password]
     )
     class Meta:
         model = User
