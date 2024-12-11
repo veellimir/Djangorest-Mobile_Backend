@@ -5,5 +5,5 @@ from . import views
 
 
 urlpatterns: List[path] = [
-    path("api/tasks/", views.TasksListView, )
+    path("api/tasks/", views.TasksListView.as_view(), )
 ]
