@@ -1,14 +1,17 @@
-from rest_framework.permissions import AllowAny
-from rest_framework import generics
-from rest_framework.response import Response
+from rest_framework import generics, permissions
+from rest_framework.serializers import BaseSerializer
 
-from .models import Tasks
-from .serializers import TasksSerializer
+from .serializers import OrganizationSerializer, TaskSerializer
 
 
-class TasksListView(generics.ListAPIView):
-    serializer_class = TasksSerializer
-    permission_classes = [AllowAny]
+class OrganizationCreateView(generics.CreateAPIView):
+    permission_classes: list = [permissions.IsAuthenticated]
+    serializer_class: type[BaseSerializer] = OrganizationSerializer
 
-    def get_queryset(self) -> Response:
-        return Tasks.objects.all()
+    def perform_create(self, serializer: BaseSerializer) -> None:
+        serializer.save(owner=self.request.user)
+
+
+class TaskCreateView(generics.CreateAPIView):
+    permission_classes: list = [permissions.IsAuthenticated]
+    serializer_class: type[BaseSerializer] = TaskSerializer

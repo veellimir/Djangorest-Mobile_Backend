@@ -1,9 +1,7 @@
-from typing import List
 from django.urls import path
+from .views import OrganizationCreateView, TaskCreateView
 
-from . import views
-
-
-urlpatterns: List[path] = [
-    path("api/tasks/", views.TasksListView.as_view(), )
+urlpatterns = [
+    path('api/organizations/create/', OrganizationCreateView.as_view(), name='organization-create'),
+    path('api/tasks/create/', TaskCreateView.as_view(), name='task-create'),
 ]

@@ -1,7 +1,11 @@
 from typing import List
 
+from rest_framework.permissions import AllowAny
+from rest_framework_simplejwt.authentication import JWTAuthentication
+
 from django.contrib import admin
 from django.urls import path, include
+from django.urls import re_path
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -18,6 +22,7 @@ schema_view = get_schema_view(
         license=openapi.License(name="BSD License"),
     ),
     public=True,
+    permission_classes=(AllowAny, ),
 )
 
 urlpatterns: List[path] = [
