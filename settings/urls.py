@@ -26,7 +26,7 @@ urlpatterns: List[path] = [
 
     path("", include("app.authentication.urls")),
     path("", include("app.users.urls")),
-    path("", include("app.products.urls")),
+    path("", include("app.tasks_board.urls")),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
