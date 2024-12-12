@@ -24,7 +24,8 @@ INSTALLED_APPS = [
 
     'app.authentication.apps.AuthenticationConfig',
     'app.users.apps.UsersConfig',
-    'app.tasks_board.apps.TasksBoardConfig',
+    'app.tasks.apps.TasksConfig',
+    'app.organizations.apps.OrganizationsConfig',
 ]
 
 MIDDLEWARE = [
@@ -95,6 +96,17 @@ SIMPLE_JWT = {
     'BLACKLIST_AFTER_ROTATION': CONFIG__BLACKLIST_AFTER_ROTATION,
 }
 
+SWAGGER_SETTINGS = {
+    'SECURITY_DEFINITIONS': {
+        'Bearer': {
+            'type': 'apiKey',
+            'name': 'Authorization',
+            'in': 'header',
+        }
+    },
+    # 'USE_SESSION_AUTH': True,
+}
+
 
 LANGUAGE_CODE = 'ru-RU'
 TIME_ZONE = 'Europe/Amsterdam'
@@ -108,3 +120,4 @@ MEDIA_URL = 'media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+

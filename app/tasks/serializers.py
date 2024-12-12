@@ -1,24 +1,8 @@
 from typing import Any
 
 from rest_framework import serializers
-from .models import Organization, Tasks
 
-
-class OrganizationSerializer(serializers.ModelSerializer):
-    class Meta:
-        model: type[Organization] = Organization
-        fields: list[str] = [
-            'id',
-            'name',
-            'owner',
-            'members',
-            'created_at'
-        ]
-        read_only_fields: list[str] = [
-            'owner',
-            'members',
-            'created_at'
-        ]
+from .models import Tasks, Organization
 
 
 class TaskSerializer(serializers.ModelSerializer):
