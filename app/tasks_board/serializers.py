@@ -49,3 +49,13 @@ class TaskSerializer(serializers.ModelSerializer):
     def save(self, **kwargs: Any) -> Tasks:
         kwargs['user'] = self.context['request'].user
         return super().save(**kwargs)
+
+
+class OrganizationCurrentUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Organization
+        fields = [
+            'id',
+            'name',
+            'created_at'
+        ]
