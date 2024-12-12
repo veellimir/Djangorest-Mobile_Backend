@@ -24,7 +24,8 @@ INSTALLED_APPS = [
 
     'app.authentication.apps.AuthenticationConfig',
     'app.users.apps.UsersConfig',
-    'app.tasks_board.apps.TasksBoardConfig',
+    'app.tasks.apps.TasksConfig',
+    'app.organizations.apps.OrganizationsConfig',
 ]
 
 MIDDLEWARE = [

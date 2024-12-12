@@ -29,7 +29,8 @@ urlpatterns: List[path] = [
 
     path("", include("app.authentication.urls")),
     path("", include("app.users.urls")),
-    path("", include("app.tasks_board.urls")),
+    path("", include("app.organizations.urls")),
+    path("", include("app.tasks.urls")),
 ]
 
 if settings.DEBUG:

@@ -3,7 +3,6 @@ from rest_framework.serializers import BaseSerializer
 
 from .serializers import (
     OrganizationSerializer,
-    TaskSerializer,
     OrganizationCurrentUserSerializer
 )
 
@@ -16,11 +15,6 @@ class OrganizationCreateView(generics.CreateAPIView):
 
     def perform_create(self, serializer: BaseSerializer) -> None:
         serializer.save(owner=self.request.user)
-
-
-class TaskCreateView(generics.CreateAPIView):
-    permission_classes: list = [permissions.IsAuthenticated]
-    serializer_class: type[BaseSerializer] = TaskSerializer
 
 
 class OrganizationListView(generics.ListAPIView):

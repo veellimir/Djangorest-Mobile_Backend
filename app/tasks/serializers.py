@@ -1,24 +1,8 @@
 from typing import Any
 
 from rest_framework import serializers
-from .models import Organization, Tasks
 
-
-class OrganizationSerializer(serializers.ModelSerializer):
-    class Meta:
-        model: type[Organization] = Organization
-        fields: list[str] = [
-            'id',
-            'name',
-            'owner',
-            'members',
-            'created_at'
-        ]
-        read_only_fields: list[str] = [
-            'owner',
-            'members',
-            'created_at'
-        ]
+from .models import Tasks, Organization
 
 
 class TaskSerializer(serializers.ModelSerializer):
@@ -49,13 +33,3 @@ class TaskSerializer(serializers.ModelSerializer):
     def save(self, **kwargs: Any) -> Tasks:
         kwargs['user'] = self.context['request'].user
         return super().save(**kwargs)
-
-
-class OrganizationCurrentUserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Organization
-        fields = [
-            'id',
-            'name',
-            'created_at'
-        ]
