@@ -95,6 +95,17 @@ SIMPLE_JWT = {
     'BLACKLIST_AFTER_ROTATION': CONFIG__BLACKLIST_AFTER_ROTATION,
 }
 
+SWAGGER_SETTINGS = {
+    'SECURITY_DEFINITIONS': {
+        'Bearer': {
+            'type': 'apiKey',
+            'name': 'Authorization',
+            'in': 'header',
+        }
+    },
+    # 'USE_SESSION_AUTH': True,
+}
+
 
 LANGUAGE_CODE = 'ru-RU'
 TIME_ZONE = 'Europe/Amsterdam'
@@ -108,3 +119,4 @@ MEDIA_URL = 'media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
