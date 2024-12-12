@@ -1,4 +1,4 @@
-from typing import Any
+from typing import Any, Dict
 
 from rest_framework import serializers
 
@@ -33,3 +33,10 @@ class TaskSerializer(serializers.ModelSerializer):
     def save(self, **kwargs: Any) -> Tasks:
         kwargs['user'] = self.context['request'].user
         return super().save(**kwargs)
+
+
+class TaskStatusesSerializers(serializers.ModelSerializer):
+    class Meta:
+        model = Tasks
+        fields = ['status_task']
+        
