@@ -26,13 +26,26 @@ class TaskSerializer(serializers.ModelSerializer):
 
         if not organization.members.filter(id=request.user.id).exists():
             raise serializers.ValidationError(
-                "Вы не являетесь участником этой организации"
+                "Данной организации не существует"
             )
         return organization
 
     def save(self, **kwargs: Any) -> Tasks:
         kwargs['user'] = self.context['request'].user
         return super().save(**kwargs)
+
+
+class TasksOrganizationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Tasks
+        fields = [
+            'id',
+            'user',
+            'status_task',
+            'title',
+            'description',
+            'created_at',
+        ]
 
 
 class TaskStatusesSerializers(serializers.ModelSerializer):
