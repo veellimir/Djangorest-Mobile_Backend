@@ -6,4 +6,5 @@ from . import views
 urlpatterns: List[path] = [
     path('api/organizations/create/', views.OrganizationCreateView.as_view(), name='organizations-create'),
     path('api/organizations/list/', views.OrganizationListView.as_view(), name='get_list_organizations'),
+    path('api/organizations/users/', views.OrganizationUsersView.as_view(), name='get_list_organizations_users'),
 ]

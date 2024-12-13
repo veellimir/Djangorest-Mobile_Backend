@@ -29,7 +29,11 @@ class TasksOrganizationView(generics.ListAPIView):
     serializer_class: type[BaseSerializer] = TasksOrganizationSerializer
 
     def get_queryset(self):
-        pass
+        user = self.request.user
+
+        if not user.is_authenticated:
+            return Tasks.objects.none()
+        return Tasks.objects.filter(organization__members=user)
 
 
 class TasksStatusesListView(generics.ListAPIView):
