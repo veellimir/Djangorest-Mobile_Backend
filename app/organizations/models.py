@@ -30,3 +30,23 @@ class OrganizationMembership(models.Model):
 
     class Meta:
         unique_together = ('organization', 'user')
+
+
+class OrganizationInvite(models.Model):
+    PENDING = 'pending'
+    ACCEPTED = 'accepted'
+    DECLINED = 'declined'
+
+    INVITE_STATUS_CHOICES = [
+        (PENDING, 'Отправлено'),
+        (ACCEPTED, 'Принято'),
+        (DECLINED, 'Отклонено'),
+    ]
+    organization = models.ForeignKey(Organization, on_delete=models.CASCADE, related_name='invites')
+    email = models.EmailField(verbose_name="Email")
+    invite = models.ForeignKey(User, on_delete=models.CASCADE, related_name='sent_invites')
+    invite_status = models.CharField(max_length=20, choices=INVITE_STATUS_CHOICES, default=PENDING)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('organization', 'email')

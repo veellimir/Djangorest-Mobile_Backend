@@ -21,6 +21,17 @@ class OrganizationCreateView(generics.CreateAPIView):
         serializer.save(owner=self.request.user)
 
 
+class OrganizationInviteView(APIView):
+    def post(self, request, *args, **kwargs):
+        user = request.user
+
+        if not user.is_authenticated:
+            return Response({'detail': 'Authentication required'}, status=401)
+
+        organization
+
+
+
 class OrganizationListView(generics.ListAPIView):
     serializer_class: type[BaseSerializer] = OrganizationCurrentUserSerializer
 
