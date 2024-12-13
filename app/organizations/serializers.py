@@ -28,3 +28,12 @@ class OrganizationCurrentUserSerializer(serializers.ModelSerializer):
             'name',
             'created_at'
         ]
+
+
+class OrganizationUsersSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Organization
+        fields = [
+            'id',
+            'members'
+        ]
