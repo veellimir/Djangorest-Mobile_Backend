@@ -1,5 +1,4 @@
-from typing import Any, Dict
-
+from typing import Any
 from rest_framework import serializers
 
 from .models import Tasks, Organization

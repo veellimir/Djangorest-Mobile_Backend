@@ -6,13 +6,18 @@ from rest_framework.views import APIView
 from rest_framework.serializers import BaseSerializer
 from rest_framework import status
 
+from utils.exceptions import (
+    EXCEPTION_USER_NOT_FOUND,
+    EXCEPTION_UNAUTHORIZED,
+    EXCEPTION_CONFLICT_ORGANIZATION,
+    EXCEPTION_ORGANIZATION_NOT_FOUND
+)
 from .serializers import (
     OrganizationSerializer,
     OrganizationCurrentUserSerializer,
     OrganizationInviteSerializer
 )
 from app.users.serializers import UserSerializer
-
 from .models import Organization, OrganizationInvite
 
 
@@ -36,19 +41,16 @@ class OrganizationInviteView(generics.CreateAPIView):
             try:
                 organization = Organization.objects.get(id=organization_id)
             except Organization.DoesNotExist:
-                return Response({"detail": "Организация не найдена."}, status=status.HTTP_404_NOT_FOUND)
+                return EXCEPTION_ORGANIZATION_NOT_FOUND
 
             try:
                 user = User.objects.get(username=username)
             except User.DoesNotExist:
-                return Response({"detail": "Пользователь с таким username не найден."},
-                                status=status.HTTP_404_NOT_FOUND)
+                return EXCEPTION_USER_NOT_FOUND
 
             if organization.members.filter(id=user.id).exists():
-                return Response({"detail": "Этот пользователь уже является участником организации."},
-                                status=status.HTTP_409_CONFLICT)
+                return EXCEPTION_CONFLICT_ORGANIZATION
 
-            # Создаем приглашение
             invite = OrganizationInvite.objects.create(
                 organization=organization,
                 email=user.email,
@@ -59,9 +61,11 @@ class OrganizationInviteView(generics.CreateAPIView):
             organization.members.add(user)
 
             return Response({
-                "detail": f"Пользователь {username} успешно добавлен в организацию '{organization.name}'.",
+                "detail": f"Пользователь {username} успешно "
+                          f"добавлен в организацию '{organization.name}'.",
                 "invite_id": invite.id
-            }, status=status.HTTP_201_CREATED)
+            },
+            status=status.HTTP_201_CREATED)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -78,7 +82,7 @@ class OrganizationUsersView(APIView):
         user = request.user
 
         if not user.is_authenticated:
-            return Response({'detail': 'Authentication required'}, status=401)
+            return EXCEPTION_UNAUTHORIZED
 
         organizations = Organization.objects.filter(members=user)
         users = User.objects.filter(organizations__in=organizations).distinct()

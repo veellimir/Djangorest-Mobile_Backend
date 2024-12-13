@@ -1,4 +1,3 @@
-from django.contrib.auth.models import User
 from rest_framework import serializers
 
 from .models import Organization, OrganizationInvite
@@ -20,9 +19,16 @@ class OrganizationSerializer(serializers.ModelSerializer):
             'created_at'
         ]
 
+
 class OrganizationInviteSerializer(serializers.Serializer):
-    username = serializers.CharField(required=True, help_text="Имя пользователя, который будет добавлен в организацию")
-    organization_id = serializers.IntegerField(required=True, help_text="ID организации")
+    username = serializers.CharField(
+        required=True,
+        help_text="Имя пользователя, который будет добавлен в организацию"
+    )
+    organization_id = serializers.IntegerField(
+        required=True,
+        help_text="ID организации"
+    )
 
     class Meta:
         model = OrganizationInvite
@@ -31,7 +37,6 @@ class OrganizationInviteSerializer(serializers.Serializer):
             'invite',
             'invite_status'
         ]
-
 
 
 class OrganizationCurrentUserSerializer(serializers.ModelSerializer):

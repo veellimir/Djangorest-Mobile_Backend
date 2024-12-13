@@ -9,6 +9,7 @@ from .serializers import (
     TasksOrganizationSerializer
 )
 from .models import Tasks
+from utils.exceptions import EXCEPTION_ORGANIZATION_NOT_FOUND
 
 
 class TaskCreateView(generics.CreateAPIView):
@@ -19,9 +20,7 @@ class TaskCreateView(generics.CreateAPIView):
         user = self.request.user
 
         if not organization.members.filter(id=user.id).exists():
-            raise PermissionError(
-                "Данной организации не существует"
-            )
+            return EXCEPTION_ORGANIZATION_NOT_FOUND
         serializer.save(user=user)
 
 
