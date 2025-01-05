@@ -47,6 +47,22 @@ class TasksOrganizationSerializer(serializers.ModelSerializer):
         ]
 
 
+class TaskUpdateSerializers(serializers.ModelSerializer):
+    class Meta:
+        model = Tasks
+        fields = [
+            'id',
+            'organization',
+            'user',
+            'status_task',
+            'title',
+            'description',
+            'created_at'
+        ]
+        read_only_fields = ['id', 'created_at', 'organization', 'user']
+
+
+
 class TaskStatusesSerializers(serializers.ModelSerializer):
     class Meta:
         model = Tasks
