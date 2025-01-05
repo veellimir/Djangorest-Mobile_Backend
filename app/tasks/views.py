@@ -35,6 +35,15 @@ class TasksOrganizationView(generics.ListAPIView):
         return Tasks.objects.filter(organization__members=user)
 
 
+class TaskDeleteView(generics.DestroyAPIView):
+    serializer_class: type[BaseSerializer] = TaskSerializer
+
+    def get_queryset(self):
+        user = self.request.user
+        return Tasks.objects.filter(user=user)
+
+
+
 class TasksStatusesListView(generics.ListAPIView):
     serializer_class: type[BaseSerializer] = TaskStatusesSerializers
 
