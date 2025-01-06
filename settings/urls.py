@@ -14,7 +14,7 @@ schema_view = get_schema_view(
     openapi.Info(
         title="Backend Mobile API",
         default_version="v1",
-        description="Документация API для мобильного приложения",
+        description="API documentation for the mobile app",
         terms_of_service="https://www.example.com/terms/",
         contact=openapi.Contact(email="support@example.com"),
         license=openapi.License(name="BSD License"),
