@@ -18,7 +18,9 @@ class RegisterView(generics.CreateAPIView):
 
         serializer.save()
         return Response(
-            {"message": "Пользователь успешно создан"},
+            {
+                "message": "Пользователь успешно зарегистрирован, теперь вы можете войти"
+            },
             status=status.HTTP_201_CREATED
         )
 
