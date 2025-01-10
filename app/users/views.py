@@ -1,11 +1,14 @@
-from rest_framework import generics
+from django.contrib.auth.password_validation import validate_password
+
+from rest_framework import generics, status
 from rest_framework.response import Response
 from rest_framework.exceptions import NotFound
+from rest_framework.exceptions import ValidationError
 
 from app.organizations.serializers import OrganizationUsersSerializer
 from app.organizations.models import Organization
 
-from .serializers import UserSerializer
+from .serializers import UserSerializer, UserPasswordSerializer
 
 
 class CurrentUserView(generics.RetrieveAPIView):
@@ -24,3 +27,36 @@ class CurrentOrganizationUsers(generics.RetrieveAPIView):
         except Organization.DoesNotExist:
             raise NotFound("Организация не найдена или вы не состоите в ней.")
         return organization
+
+
+class UpdateCurrentUserView(generics.UpdateAPIView):
+    serializer_class = UserSerializer
+
+    def get_object(self):
+        return self.request.user
+
+
+class ChangePasswordView(generics.UpdateAPIView):
+    serializer_class = UserPasswordSerializer
+
+    def update(self, request, *args, **kwargs):
+        if getattr(self, 'swagger_fake_view', False):
+            return None
+
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        user = request.user
+        old_password = serializer.validated_data['old_password']
+        new_password = serializer.validated_data['new_password']
+
+        if not user.check_password(old_password):
+            return Response(
+                {"error": "Неверный текущий пароль, или новый пароль не совпадает"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        user.set_password(new_password)
+        user.save()
+
+        return Response({"message": "Пароль успешно изменен."}, status=status.HTTP_200_OK)
