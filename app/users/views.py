@@ -1,9 +1,7 @@
-from django.contrib.auth.password_validation import validate_password
-
 from rest_framework import generics, status
 from rest_framework.response import Response
 from rest_framework.exceptions import NotFound
-from rest_framework.exceptions import ValidationError
+from rest_framework.views import APIView
 
 from app.organizations.serializers import OrganizationUsersSerializer
 from app.organizations.models import Organization
@@ -60,3 +58,19 @@ class ChangePasswordView(generics.UpdateAPIView):
         user.save()
 
         return Response({"message": "Пароль успешно изменен."}, status=status.HTTP_200_OK)
+
+
+class UserDeleteAPIView(APIView):
+    def delete(self, request):
+        user = request.user
+        if user.is_authenticated:
+            user.delete()
+            return Response(
+                {"message": "User deleted successfully"},
+                status=status.HTTP_204_NO_CONTENT
+            )
+        else:
+            return Response(
+                {"error": "User not authenticated"},
+                status=status.HTTP_401_UNAUTHORIZED
+            )

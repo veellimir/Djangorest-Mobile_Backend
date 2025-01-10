@@ -9,4 +9,6 @@ urlpatterns: List[path] = [
     path('api/user/organization/', views.CurrentOrganizationUsers.as_view(), ),
     path('api/user/me/change-password/', views.ChangePasswordView.as_view(), ),
     path('api/user/me/edit/', views.UpdateCurrentUserView.as_view(), ),
+    path('api/user/me/delete/', views.UserDeleteAPIView.as_view(), ),
+
 ]
