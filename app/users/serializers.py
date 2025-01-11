@@ -45,13 +45,10 @@ class PasswordResetEmailSerializer(serializers.Serializer):
 
 
 class PasswordResetConfirmSerializer(serializers.Serializer):
-    new_password = serializers.CharField(write_only=True, required=True)
-    confirm_password = serializers.CharField(write_only=True, required=True)
+    new_password = serializers.CharField(write_only=True, min_length=6)
+    confirm_password = serializers.CharField(write_only=True, min_length=6)
 
-    def validate(self, attrs):
-        new_password = attrs.get('new_password')
-        confirm_password = attrs.get('confirm_password')
-
-        if new_password != confirm_password:
+    def validate(self, data):
+        if data['new_password'] != data['confirm_password']:
             raise serializers.ValidationError("Пароли не совпадают.")
-        return attrs
+        return data

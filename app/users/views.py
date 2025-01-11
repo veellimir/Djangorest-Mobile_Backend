@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from django.contrib.auth.tokens import default_token_generator
 from django.core.mail import send_mail
+from django.shortcuts import render
 from django.template.loader import render_to_string
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from django.conf import settings
@@ -17,8 +18,12 @@ from app.organizations.serializers import OrganizationUsersSerializer
 from app.organizations.models import Organization
 from settings.env_config import CONFIG__PROJECT_DOMAIN_NAME
 
-from .serializers import UserSerializer, UserPasswordSerializer, PasswordResetEmailSerializer, \
+from .serializers import (
+    UserSerializer,
+    UserPasswordSerializer,
+    PasswordResetEmailSerializer,
     PasswordResetConfirmSerializer
+)
 
 from utils.exceptions import EXCEPTION_UNAUTHORIZED, EXCEPTION_USER_PASSWORD
 
@@ -126,12 +131,32 @@ class PasswordResetRequestAPIView(APIView):
             'password_reset_email.html',
             {'reset_url': reset_url, 'user': user}
         )
-
-        send_mail(subject, message, settings.EMAIL_HOST_USER, [user.email])
+        send_mail(subject, message, settings.EMAIL_HOST_USER, [user.email], html_message=message)
 
 
 class PasswordResetConfirmAPIView(APIView):
     permission_classes = [AllowAny]
+
+    def get(self, request, uidb64, token):
+        try:
+            uid = urlsafe_base64_decode(uidb64).decode()
+            user = User.objects.get(pk=uid)
+        except (TypeError, ValueError, OverflowError, User.DoesNotExist):
+            return Response(
+                {"error": "Неверный токен или пользователь."},
+                status=400
+            )
+
+        if not default_token_generator.check_token(user, token):
+            return Response(
+                {"error": "Неверный токен."},
+                status=400
+            )
+
+        return render(request, 'password_reset_confirm.html', {
+            'uidb64': uidb64,
+            'token': token
+        })
 
     def post(self, request, uidb64, token):
         try:
@@ -139,13 +164,13 @@ class PasswordResetConfirmAPIView(APIView):
             user = User.objects.get(pk=uid)
         except (TypeError, ValueError, OverflowError, User.DoesNotExist):
             return Response(
-                {"error": "Invalid token or user."},
+                {"error": "Неверный токен или пользователь."},
                 status=400
             )
 
         if not default_token_generator.check_token(user, token):
             return Response(
-                {"error": "Invalid token."},
+                {"error": "Неверный токен."},
                 status=400
             )
 
@@ -157,8 +182,8 @@ class PasswordResetConfirmAPIView(APIView):
                 {"message": "Пароль успешно изменен."},
                 status=200
             )
+        return Response(serializer.errors, status=400)
 
-        return Response(
-            serializer.errors,
-            status=400
-        )
+
+def final_password(request):
+    return render(request, "final_password.html")
