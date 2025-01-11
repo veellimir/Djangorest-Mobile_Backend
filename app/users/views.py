@@ -124,7 +124,8 @@ class PasswordResetRequestAPIView(APIView):
         uid = urlsafe_base64_encode(str(user.pk).encode())
 
         # TODO: изменить на CONFIG__PROJECT_DOMAIN_NAME
-        reset_url = f"http://127.0.0.1:8000/api/user/password-reset-confirm/{uid}/{token}/"
+        # reset_url = f"http://127.0.0.1:8000/api/user/password-reset-confirm/{uid}/{token}/"
+        reset_url = f"{CONFIG__PROJECT_DOMAIN_NAME}/api/user/password-reset-confirm/{uid}/{token}/"
 
         subject = "Восстановление пароля"
         message = render_to_string(

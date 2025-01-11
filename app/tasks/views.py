@@ -65,3 +65,16 @@ class TasksStatusesListView(generics.ListAPIView):
 
     def get_queryset(self) -> List[Dict[str, str]]:
         return [{"status_task": status} for status in Tasks.STATUSES_TASKS]
+
+
+class TaskIdView(generics.RetrieveAPIView):
+    serializer_class = TaskSerializer
+    queryset = Tasks.objects.all()
+
+    def get_object(self):
+        task_id = self.kwargs.get("pk")
+        try:
+            task = Tasks.objects.get(id=task_id)
+        except Tasks.DoesNotExist:
+            raise NotFound("Задачи не существует")
+        return task
