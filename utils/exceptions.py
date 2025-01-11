@@ -7,6 +7,11 @@ EXCEPTION_USER_NOT_FOUND = Response(
     status=status.HTTP_404_NOT_FOUND
 )
 
+EXCEPTION_USER_PASSWORD = Response(
+    {"error": "Неверный текущий пароль, или новый пароль не совпадает"},
+    status=status.HTTP_400_BAD_REQUEST
+)
+
 EXCEPTION_UNAUTHORIZED = Response(
     {"detail": "Не авторизован"},
     status=status.HTTP_401_UNAUTHORIZED,
