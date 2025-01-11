@@ -25,7 +25,12 @@ from .serializers import (
     PasswordResetConfirmSerializer
 )
 
-from utils.exceptions import EXCEPTION_UNAUTHORIZED, EXCEPTION_USER_PASSWORD
+from utils.exceptions import (
+    EXCEPTION_UNAUTHORIZED,
+    EXCEPTION_USER_EMAIL,
+    EXCEPTION_USER_NOT_FOUND,
+    EXCEPTION_USER_PASSWORD
+)
 
 
 class CurrentUserView(generics.RetrieveAPIView):
@@ -105,10 +110,7 @@ class PasswordResetRequestAPIView(APIView):
             try:
                 user = User.objects.get(email=email)
             except User.DoesNotExist:
-                return Response(
-                    {"error": "Пользователь с таким email не найден."},
-                    status=status.HTTP_404_NOT_FOUND
-                )
+                return EXCEPTION_USER_EMAIL
 
             self.send_reset_email(user)
 
@@ -143,16 +145,10 @@ class PasswordResetConfirmAPIView(APIView):
             uid = urlsafe_base64_decode(uidb64).decode()
             user = User.objects.get(pk=uid)
         except (TypeError, ValueError, OverflowError, User.DoesNotExist):
-            return Response(
-                {"error": "Неверный токен или пользователь."},
-                status=400
-            )
+            return EXCEPTION_USER_NOT_FOUND
 
         if not default_token_generator.check_token(user, token):
-            return Response(
-                {"error": "Неверный токен."},
-                status=400
-            )
+            return EXCEPTION_USER_NOT_FOUND
 
         return render(request, 'password_reset_confirm.html', {
             'uidb64': uidb64,
@@ -164,16 +160,10 @@ class PasswordResetConfirmAPIView(APIView):
             uid = urlsafe_base64_decode(uidb64).decode()
             user = User.objects.get(pk=uid)
         except (TypeError, ValueError, OverflowError, User.DoesNotExist):
-            return Response(
-                {"error": "Неверный токен или пользователь."},
-                status=400
-            )
+            return EXCEPTION_USER_NOT_FOUND
 
         if not default_token_generator.check_token(user, token):
-            return Response(
-                {"error": "Неверный токен."},
-                status=400
-            )
+            return EXCEPTION_USER_NOT_FOUND
 
         serializer = PasswordResetConfirmSerializer(data=request.data)
         if serializer.is_valid():
