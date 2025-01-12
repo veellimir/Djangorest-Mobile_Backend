@@ -178,3 +178,7 @@ class PasswordResetConfirmAPIView(APIView):
 
 def final_password(request):
     return render(request, "final_password.html")
+
+
+def politics_page(request):
+    return render(request, "politics.html")
