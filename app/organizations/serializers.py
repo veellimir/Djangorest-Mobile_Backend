@@ -23,7 +23,7 @@ class OrganizationSerializer(serializers.ModelSerializer):
 class OrganizationInviteSerializer(serializers.Serializer):
     email = serializers.CharField(
         required=True,
-        help_text="Email зарегистрированного пользователя, который будет добавлен в организацию"
+        help_text="Email of the registered user who will be added to the organization"
     )
     organization_id = serializers.IntegerField(
         required=True,

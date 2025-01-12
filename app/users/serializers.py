@@ -1,11 +1,5 @@
 from django.contrib.auth.models import User
-from django.core.mail import send_mail
-from django.template.loader import render_to_string
-from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
-from django.conf import settings
-
 from rest_framework import serializers
-from django.contrib.auth.tokens import default_token_generator
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -33,13 +27,13 @@ class UserPasswordSerializer(serializers.ModelSerializer):
 
 
 class PasswordResetEmailSerializer(serializers.Serializer):
-    email = serializers.EmailField(required=True, label="Email для сброса пароля")
+    email = serializers.EmailField(required=True, label="Email for password reset")
 
     def validate_email(self, value):
         try:
             user = User.objects.get(email=value)
         except User.DoesNotExist:
-            raise serializers.ValidationError("Пользователь с этим email не найден.")
+            raise serializers.ValidationError("The user with this email was not found.")
         return value
 
 
@@ -50,5 +44,5 @@ class PasswordResetConfirmSerializer(serializers.Serializer):
 
     def validate(self, data):
         if data['new_password'] != data['confirm_password']:
-            raise serializers.ValidationError("Пароли не совпадают.")
+            raise serializers.ValidationError("The passwords don't match.")
         return data
