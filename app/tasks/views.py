@@ -76,5 +76,5 @@ class TaskIdView(generics.RetrieveAPIView):
         try:
             task = Tasks.objects.get(id=task_id)
         except Tasks.DoesNotExist:
-            raise NotFound("Задачи не существует")
+            raise NotFound("The task does not exist")
         return task

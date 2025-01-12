@@ -25,7 +25,7 @@ class TaskSerializer(serializers.ModelSerializer):
 
         if not organization.members.filter(id=request.user.id).exists():
             raise serializers.ValidationError(
-                "Данной организации не существует"
+                "This organization does not exist"
             )
         return organization
 

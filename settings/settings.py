@@ -111,7 +111,7 @@ SWAGGER_SETTINGS = {
 }
 
 
-LANGUAGE_CODE = 'ru-RU'
+LANGUAGE_CODE = 'en-EN'
 TIME_ZONE = 'Europe/Amsterdam'
 
 USE_I18N = True

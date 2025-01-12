@@ -11,10 +11,10 @@ class Tasks(models.Model):
     END_TASK = 3
 
     STATUSES_TASKS = (
-        (NEW_TASK, "Новая"),
-        (WORK_TASK, "В работе"),
-        (CHECK_TASK, "На проверке"),
-        (END_TASK, "Выполнено"),
+        (NEW_TASK, "New"),
+        (WORK_TASK, "In work"),
+        (CHECK_TASK, "Review"),
+        (END_TASK, "Completed"),
     )
 
     organization = models.ForeignKey(

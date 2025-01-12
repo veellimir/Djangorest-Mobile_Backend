@@ -47,7 +47,7 @@ class CurrentOrganizationUsers(generics.RetrieveAPIView):
         try:
             organization = Organization.objects.get(members=self.request.user)
         except Organization.DoesNotExist:
-            raise NotFound("Организация не найдена или вы не состоите в ней.")
+            raise NotFound("The organization has not been found or you are not a member of it.")
         return organization
 
 
@@ -79,7 +79,7 @@ class ChangePasswordView(generics.UpdateAPIView):
         user.save()
 
         return Response(
-            {"message": "Пароль успешно изменен."},
+            {"message": "The password has been successfully changed."},
             status=status.HTTP_200_OK
         )
 
@@ -90,7 +90,7 @@ class UserDeleteAPIView(APIView):
         if user.is_authenticated:
             user.delete()
             return Response(
-                {"message": "Пользователь удалён"},
+                {"message": "The user has been deleted"},
                 status=status.HTTP_204_NO_CONTENT
             )
         else:
@@ -115,7 +115,7 @@ class PasswordResetRequestAPIView(APIView):
             self.send_reset_email(user)
 
             return Response(
-                {"message": "Письмо с инструкциями по сбросу пароля отправлено."},
+                {"message": "An email with instructions for password reset has been sent."},
                 status=status.HTTP_200_OK
             )
 
@@ -170,7 +170,7 @@ class PasswordResetConfirmAPIView(APIView):
             user.set_password(serializer.validated_data['new_password'])
             user.save()
             return Response(
-                {"message": "Пароль успешно изменен."},
+                {"message": "The password has been successfully changed."},
                 status=200
             )
         return Response(serializer.errors, status=400)
